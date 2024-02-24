@@ -32,7 +32,7 @@ jobs:
           new_version="$major.$minor.$((patch + 1))"
           echo "$new_version"
           git tag "$new_version"
-          echo "::set-output name=NEW_TAG::$new_version"
+          echo "NEW_TAG=$new_version" >> $GITHUB_OUTPUT
 
       - name: Push new tag
         run: git push origin ${{ steps.bump_version.outputs.NEW_TAG }}
