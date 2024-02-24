@@ -1,1 +1,22 @@
+name: Auto Tag
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    tag:
+        runs-on: ubuntu-latest
+      
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+      
+            - name: Tag commit
+              run: |
+                git tag -a v1.0 -m "Auto-generated tag for commit $GITHUB_SHA"
+                git push --tags origin main
+              env:
+                GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      
