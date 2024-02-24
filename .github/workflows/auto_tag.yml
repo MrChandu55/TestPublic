@@ -18,9 +18,9 @@ jobs:
         run: |
           tags=$(git tag)
           if [ -z "$tags" ]; then
-            echo "::set-output name=TAG::$(git describe --tags $(git rev-list --tags --max-count=1))"
-          else
             echo "::set-output name=TAG::v1.0.0"
+          else
+            echo "::set-output name=TAG::$(git describe --tags $(git rev-list --tags))"
           fi
       - name: Bump version
         id: bump_version
