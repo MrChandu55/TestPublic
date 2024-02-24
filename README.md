@@ -13,3 +13,7 @@ First test was successful and a tag with v1.0.1 was created, but I was thinking 
 ## Test - 2
 
 Now testing to see if the tag gets bumped automatically to v1.0.2 by sending a new push request.
+
+## Result
+
+Test failed, but done some tweaks to bump code to fix it, manual run looks okay, but checking for the response from bump code for a push request now.
