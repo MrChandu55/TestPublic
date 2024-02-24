@@ -27,7 +27,7 @@ jobs:
         run: |
           version=${{ steps.latest_tag.outputs.TAG }}
           IFS='.' read -r major minor patch <<<"$version"
-          new_version="$major.$minor.$((patch + 2))"
+          new_version="$major.$minor.($patch)+1"
           git tag "$new_version"
           echo "::set-output name=NEW_TAG::$new_version"
       - name: Push new tag
