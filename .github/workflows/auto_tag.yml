@@ -15,6 +15,8 @@ jobs:
       
             - name: Tag commit
               run: |
+                git config user.email "gopichand.vattikuti@gmail.com"
+                git config user.name "MrChandu55"
                 git tag -a v1.0 -m "Auto-generated tag for commit $GITHUB_SHA"
                 git push --tags origin main
               env:
