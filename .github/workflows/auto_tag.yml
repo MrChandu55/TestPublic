@@ -20,7 +20,7 @@ jobs:
           # if [ -z "$tags" ]; then
           #   echo "TAG=v1.0.0" >> $GITHUB_OUTPUT
           # else
-          echo "TAG=$(git describe --tags $(git rev-list --tags --max-count=1))"
+          echo "TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
           # fi
 
       - name: Bump version
