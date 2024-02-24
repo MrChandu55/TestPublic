@@ -1,4 +1,4 @@
-name: Auto Tag
+name: Bump Version
 
 on:
   push:
@@ -6,19 +6,31 @@ on:
       - main
 
 jobs:
-    tag:
-        runs-on: ubuntu-latest
-      
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v2
-      
-            - name: Tag commit
-              run: |
-                git config user.email "gopichand.vattikuti@gmail.com"
-                git config user.name "MrChandu55"
-                git tag -a v1.0 -m "Auto-generated tag for commit $GITHUB_SHA"
-                git push --tags origin main
-              env:
-                GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-      
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get latest tag
+        id: latest_tag
+        run: |
+          tags=$(git tag)
+          if [ -z "$tags" ]; then
+            echo "::set-output name=TAG::v1.0.0"
+          else
+            echo "::set-output name=TAG::$(git describe --tags $(git rev-list --tags --max-count=1))"
+          fi
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          version=${{ steps.latest_tag.outputs.TAG }}
+          IFS='.' read -r major minor patch <<<"$version"
+          new_version="$major.$minor.$((patch + 1))"
+          git tag "$new_version"
+          echo "::set-output name=NEW_TAG::$new_version"
+
+      - name: Push new tag
+        run: git push origin ${{ steps.bump_version.outputs.NEW_TAG }}
