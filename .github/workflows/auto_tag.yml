@@ -29,7 +29,7 @@ jobs:
           version=${{ steps.latest_tag.outputs.TAG }}
           echo $version
           IFS='.' read -r major minor patch <<<"$version"
-          new_version="$major.$minor.$((patch + 1))"
+          new_version="v$major.$minor.$((patch + 1))"
           echo "$new_version"
           git tag "$new_version"
           echo "NEW_TAG=$new_version" >> $GITHUB_OUTPUT
