@@ -16,14 +16,18 @@ jobs:
       - name: Get latest tag
         id: latest_tag
         run: |
-          if [ -z "$tags" ]; then
-            echo "No tags found, setting default tag to v1.0.0"
-            echo "::set-output name=TAG::v1.0.0"
-          else
-            latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
-            echo "Latest tag: $latest_tag"
-            echo "::set-output name=TAG::$latest_tag"
-          fi
+          - name: Get latest tag
+            id: latest_tag
+            run: |
+              if [ -z "$(git tag)" ]; then
+                echo "No tags found, setting default tag to v1.0.0"
+                default_tag="v1.0.0"
+                echo "::set-output name=TAG::$default_tag"
+              else
+                latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+                echo "Latest tag: $latest_tag"
+                echo "::set-output name=TAG::$latest_tag"
+              fi
 
       - name: Bump version
         id: bump_version
