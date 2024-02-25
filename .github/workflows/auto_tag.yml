@@ -16,7 +16,11 @@ jobs:
       - name: Get latest tag
         id: latest_tag
         run: |
-          tags=$(git tag)
+          latest_tag=$(curl -s -H "Authorization: token bumptag" \
+                         "https://api.github.com/repos/gopichand.vattikuti@gmail.com/https://github.com/MrChandu55/TestPublic.git/tags" \
+                         | jq -r '.[0].name')
+          echo "::set-output name=TAG::$latest_tag"
+
           if [ -z "$tags" ]; then
             echo "No tags found, setting default tag to v1.0.0"
             default_tag="v1.0.0"
