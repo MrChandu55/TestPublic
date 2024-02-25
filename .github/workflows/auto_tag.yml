@@ -16,7 +16,6 @@ jobs:
       - name: Get latest tag
         id: latest_tag
         run: |
-          tags=$(git tag)
           if [ -z "$tags" ]; then
             echo "No tags found, setting default tag to v1.0.0"
             echo "::set-output name=TAG::v1.0.0"
