@@ -17,3 +17,7 @@ Now testing to see if the tag gets bumped automatically to v1.0.2 by sending a n
 ## Result
 
 Test failed, but done some tweaks to bump code to fix it, manual run looks okay, but checking for the response from bump code for a push request now.
+
+## Test -3
+
+Testing to see if the error got fixed as manual run looks successful but tag number didn't got generated.
