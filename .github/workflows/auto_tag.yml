@@ -19,26 +19,27 @@ jobs:
           tags=$(git tag)
           if [ -z "$tags" ]; then
             echo "No tags found, setting default tag to v1.0.0"
-            default_tag="v1.0.0"
-            echo "::set-output name=TAG::$default_tag"
+            echo "::set-output name=TAG::v1.0.0"
           else
-            lastest_tag=$(git describe --tag $(git rev-list --tags --max-count=1))
+            latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
             echo "Latest tag: $latest_tag"
             echo "::set-output name=TAG::$latest_tag"
           fi
+
       - name: Bump version
         id: bump_version
         run: |
           version=${{ steps.latest_tag.outputs.TAG }}
-          echo "Curent version: $version"
+          echo "Current version: $version"
           IFS='.' read -r major minor patch <<<"$version"
           new_patch=$((patch + 1))
           new_version="$major.$minor.$new_patch"
           echo "New version: $new_version"
           git tag "$new_version"
           echo "::set-output name=NEW_TAG::$new_version"
+
       - name: Push new tag
         run: |
-          new_tag=${{ steps.bump_version.output.NEW_TAG }}
-          echo "Push new tag: $new_tag"
-          git push origin $new_tag
+          new_tag=${{ steps.bump_version.outputs.NEW_TAG }}
+          echo "Pushing new tag: $new_tag"
+          git push origin "$new_tag"
